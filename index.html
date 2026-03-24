@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Réunion BIM efficace – FCR Bordeaux</title>
+  <meta name="description" content="Formation Réunion BIM efficace – Posture, animation et gestion des tensions. FCR Bordeaux, Compagnons du Tour de France." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700;800&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       DESIGN TOKENS – Charte FCR Bordeaux
+    ============================================================ */
+    :root {
+      --orange:      #EC7404;
+      --orange-dark: #c5600a;
+      --orange-light:#fdf0e0;
+      --navy:        #3364A3;
+      --navy-dark:   #1e3f6e;
+      --navy-light:  #e8eef7;
+      --white:       #ffffff;
+      --off-white:   #fafaf8;
+      --text:        #1a1a1a;
+      --text-muted:  #5a5a5a;
+      --border:      #e0d8cc;
+      --radius:      12px;
+      --shadow:      0 4px 24px rgba(51,100,163,0.10);
+      --shadow-lg:   0 12px 48px rgba(51,100,163,0.16);
+      --font-head:   'DM Serif Display', Georgia, serif;
+      --font-body:   'Sora', sans-serif;
+      --transition:  0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      background: var(--off-white);
+      color: var(--text);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+    img { max-width: 100%; display: block; }
+    a { color: var(--navy); text-decoration: none; transition: color var(--transition); }
+    a:hover { color: var(--orange); }
+    a:focus-visible, button:focus-visible {
+      outline: 3px solid var(--orange);
+      outline-offset: 3px;
+      border-radius: 4px;
+    }
+
+    /* ============================================================
+       LAYOUT HELPERS
+    ============================================================ */
+    .container {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    section { padding: 72px 0; }
+    section:nth-child(even) { background: var(--white); }
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 10px;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+      color: var(--navy-dark);
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+    .section-intro {
+      color: var(--text-muted);
+      font-size: 1.05rem;
+      max-width: 640px;
+      margin-bottom: 40px;
+    }
+
+    /* ============================================================
+       SKIP LINK – ACCESSIBILITÉ
+    ============================================================ */
+    .skip-link {
+      position: absolute;
+      top: -60px;
+      left: 16px;
+      background: var(--orange);
+      color: var(--white);
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-weight: 600;
+      z-index: 9999;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 12px; color: var(--white); }
+
+    /* ============================================================
+       NAVIGATION
+    ============================================================ */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      gap: 16px;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--navy-dark);
+    }
+    .nav-logo img {
+      height: 40px;
+      width: 40px;
+      object-fit: contain;
+      border-radius: 6px;
+    }
+    .nav-links {
+      display: flex;
+      gap: 24px;
+      list-style: none;
+    }
+    .nav-links a {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      padding: 4px 0;
+      border-bottom: 2px solid transparent;
+      transition: all var(--transition);
+    }
+    .nav-links a:hover {
+      color: var(--orange);
+      border-color: var(--orange);
+    }
+    .nav-cta {
+      background: var(--orange);
+      color: var(--white) !important;
+      padding: 8px 18px !important;
+      border-radius: 8px !important;
+      border: none !important;
+    }
+    .nav-cta:hover { background: var(--orange-dark); color: var(--white) !important; }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* ============================================================
+       HERO / BANNER
+    ============================================================ */
+    #accueil {
+      padding: 0;
+      position: relative;
+      overflow: hidden;
+      min-height: 520px;
+      display: flex;
+      align-items: center;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(135deg, var(--navy-dark) 0%, #2a5298 45%, var(--orange-dark) 100%);
+      z-index: 0;
+    }
+    /* Motif géométrique SVG BIM inspiré */
+    .hero-pattern {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      opacity: 0.12;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Crect x='10' y='10' width='100' height='100' fill='none' stroke='%23fff' stroke-width='1'/%3E%3Cline x1='10' y1='10' x2='110' y2='110' stroke='%23fff' stroke-width='1'/%3E%3Cline x1='110' y1='10' x2='10' y2='110' stroke='%23fff' stroke-width='1'/%3E%3Ccircle cx='60' cy='60' r='35' fill='none' stroke='%23fff' stroke-width='1'/%3E%3Cline x1='60' y1='10' x2='60' y2='110' stroke='%23fff' stroke-width='0.7'/%3E%3Cline x1='10' y1='60' x2='110' y2='60' stroke='%23fff' stroke-width='0.7'/%3E%3C/svg%3E");
+      background-size: 120px 120px;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 80px 0 72px;
+      width: 100%;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(236,116,4,0.22);
+      border: 1px solid rgba(236,116,4,0.5);
+      color: #ffd09e;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding: 6px 14px;
+      border-radius: 100px;
+      margin-bottom: 24px;
+    }
+    .hero-badge::before {
+      content: '';
+      width: 8px; height: 8px;
+      background: var(--orange);
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .hero-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 5vw, 3.4rem);
+      color: var(--white);
+      line-height: 1.12;
+      margin-bottom: 20px;
+      max-width: 700px;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: #ffd09e;
+    }
+    .hero-subtitle {
+      font-size: 1.1rem;
+      color: rgba(255,255,255,0.80);
+      max-width: 580px;
+      margin-bottom: 36px;
+      line-height: 1.65;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 26px;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--orange);
+      color: var(--white);
+      border-color: var(--orange);
+    }
+    .btn-primary:hover {
+      background: var(--orange-dark);
+      border-color: var(--orange-dark);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(236,116,4,0.35);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      border-color: rgba(255,255,255,0.55);
+    }
+    .btn-outline:hover {
+      background: rgba(255,255,255,0.12);
+      border-color: var(--white);
+      color: var(--white);
+    }
+    .hero-meta {
+      margin-top: 48px;
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+    .hero-meta-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.88rem;
+    }
+    .hero-meta-item svg { flex-shrink: 0; opacity: 0.9; }
+    .hero-meta-item strong { color: var(--white); font-weight: 700; }
+
+    /* ============================================================
+       ATOUTS / CHIFFRES CLÉS
+    ============================================================ */
+    #atouts { padding: 56px 0; background: var(--orange); }
+    .atouts-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2px;
+    }
+    .atout-card {
+      background: rgba(255,255,255,0.12);
+      padding: 32px 24px;
+      text-align: center;
+      border-radius: 8px;
+      transition: background var(--transition);
+    }
+    .atout-card:hover { background: rgba(255,255,255,0.2); }
+    .atout-icon {
+      font-size: 2rem;
+      margin-bottom: 12px;
+    }
+    .atout-value {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+    .atout-label {
+      font-size: 0.82rem;
+      color: rgba(255,255,255,0.82);
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    /* ============================================================
+       OBJECTIFS
+    ============================================================ */
+    #objectifs .objectives-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .objective-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--orange);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .objective-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+    }
+    .objective-num {
+      font-family: var(--font-head);
+      font-size: 2.5rem;
+      color: var(--orange-light);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .objective-text {
+      font-size: 0.95rem;
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    /* ============================================================
+       PROGRAMME EN ACCORDÉON
+    ============================================================ */
+    #programme .accordion { display: flex; flex-direction: column; gap: 10px; }
+    .accordion-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+      transition: box-shadow var(--transition);
+    }
+    .accordion-item:hover { box-shadow: var(--shadow); }
+    .accordion-btn {
+      width: 100%;
+      background: var(--white);
+      border: none;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      cursor: pointer;
+      text-align: left;
+      transition: background var(--transition);
+      font-family: var(--font-body);
+    }
+    .accordion-btn:hover { background: var(--navy-light); }
+    .accordion-btn[aria-expanded="true"] { background: var(--navy-light); }
+    .accordion-seq {
+      background: var(--orange);
+      color: var(--white);
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border-radius: 100px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .accordion-title {
+      flex: 1;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--navy-dark);
+    }
+    .accordion-duration {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .accordion-chevron {
+      width: 20px; height: 20px;
+      color: var(--navy);
+      transition: transform var(--transition);
+      flex-shrink: 0;
+    }
+    .accordion-btn[aria-expanded="true"] .accordion-chevron {
+      transform: rotate(180deg);
+    }
+    .accordion-panel {
+      display: none;
+      padding: 0 24px 20px 24px;
+      background: var(--off-white);
+      font-size: 0.93rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      border-top: 1px solid var(--border);
+      padding-top: 16px;
+    }
+    .accordion-panel.is-open { display: block; }
+
+    /* ============================================================
+       PROFIL & PRÉREQUIS
+    ============================================================ */
+    #profil .profil-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 600px) { #profil .profil-grid { grid-template-columns: 1fr; } }
+    .profil-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: var(--shadow);
+      border-top: 4px solid var(--navy);
+    }
+    .profil-card.orange-top { border-color: var(--orange); }
+    .profil-card h3 {
+      font-family: var(--font-head);
+      font-size: 1.25rem;
+      color: var(--navy-dark);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .profil-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .profil-card ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.93rem;
+      color: var(--text-muted);
+    }
+    .profil-card ul li::before {
+      content: '→';
+      color: var(--orange);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    /* ============================================================
+       MÉTHODES PÉDAGOGIQUES
+    ============================================================ */
+    #methodes .methodes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+    }
+    .methode-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 28px 24px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      border-bottom: 3px solid var(--navy);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .methode-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--orange);
+    }
+    .methode-icon { font-size: 2.2rem; margin-bottom: 12px; }
+    .methode-title {
+      font-weight: 700;
+      color: var(--navy-dark);
+      font-size: 0.95rem;
+      margin-bottom: 8px;
+    }
+    .methode-desc { font-size: 0.83rem; color: var(--text-muted); line-height: 1.5; }
+
+    /* ============================================================
+       TÉLÉCHARGEMENTS
+    ============================================================ */
+    #telechargements { background: var(--navy-dark); }
+    #telechargements .section-label { color: #ffd09e; }
+    #telechargements .section-title { color: var(--white); }
+    #telechargements .section-intro { color: rgba(255,255,255,0.65); }
+    .dl-grid {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .btn-dl {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px 28px;
+      border-radius: var(--radius);
+      font-size: 0.92rem;
+      font-weight: 700;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: all var(--transition);
+      text-decoration: none;
+    }
+    .btn-dl-orange {
+      background: var(--orange);
+      color: var(--white);
+      border-color: var(--orange);
+    }
+    .btn-dl-orange:hover {
+      background: var(--orange-dark);
+      border-color: var(--orange-dark);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(236,116,4,0.4);
+    }
+    .btn-dl-ghost {
+      background: transparent;
+      color: var(--white);
+      border-color: rgba(255,255,255,0.4);
+    }
+    .btn-dl-ghost:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: var(--white);
+      color: var(--white);
+    }
+    .dl-icon {
+      width: 20px; height: 20px;
+      flex-shrink: 0;
+    }
+
+    /* ============================================================
+       LOCALISATION (Maps + Visite virtuelle)
+    ============================================================ */
+    #localisation .maps-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+    @media (max-width: 768px) {
+      #localisation .maps-grid { grid-template-columns: 1fr; }
+    }
+    .map-block {
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 2px solid var(--border);
+    }
+    .map-label {
+      background: var(--navy-dark);
+      color: var(--white);
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 10px 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .map-label span { opacity: 0.7; font-weight: 400; font-size: 0.75rem; margin-left: auto; }
+    .map-block iframe {
+      width: 100%;
+      height: 360px;
+      border: none;
+      display: block;
+    }
+    .address-block {
+      margin-top: 24px;
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 24px 28px;
+      box-shadow: var(--shadow);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      border-left: 4px solid var(--orange);
+    }
+    .address-icon { font-size: 1.6rem; flex-shrink: 0; margin-top: 2px; }
+    .address-block h4 {
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 4px;
+    }
+    .address-block p { font-size: 0.9rem; color: var(--text-muted); }
+
+    /* ============================================================
+       CONTACT FORMATEUR
+    ============================================================ */
+    #contact .contact-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 40px;
+      box-shadow: var(--shadow-lg);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 32px;
+      align-items: center;
+      border: 1px solid var(--border);
+    }
+    @media (max-width: 600px) {
+      #contact .contact-card { grid-template-columns: 1fr; text-align: center; }
+    }
+    .contact-avatar {
+      width: 96px; height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--navy) 0%, var(--orange) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      color: var(--white);
+      flex-shrink: 0;
+      box-shadow: 0 4px 20px rgba(51,100,163,0.3);
+    }
+    .contact-name {
+      font-family: var(--font-head);
+      font-size: 1.6rem;
+      color: var(--navy-dark);
+      margin-bottom: 4px;
+    }
+    .contact-role {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--orange);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+    .contact-links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--navy);
+      background: var(--navy-light);
+      padding: 8px 16px;
+      border-radius: 8px;
+      transition: all var(--transition);
+    }
+    .contact-link:hover {
+      background: var(--navy);
+      color: var(--white);
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--text);
+      color: rgba(255,255,255,0.65);
+      padding: 40px 0 28px;
+    }
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 32px;
+      margin-bottom: 32px;
+    }
+    @media (max-width: 600px) { .footer-inner { grid-template-columns: 1fr; } }
+    .footer-brand {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .footer-brand img {
+      width: 44px; height: 44px;
+      object-fit: contain;
+      border-radius: 6px;
+      flex-shrink: 0;
+    }
+    .footer-brand-text h4 {
+      color: var(--white);
+      font-size: 0.92rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .footer-brand-text p { font-size: 0.78rem; line-height: 1.55; }
+    .footer-links h5 {
+      color: var(--white);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+    .footer-links ul { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+    .footer-links a {
+      color: rgba(255,255,255,0.55);
+      font-size: 0.83rem;
+      transition: color var(--transition);
+    }
+    .footer-links a:hover { color: var(--orange); }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      font-size: 0.78rem;
+    }
+    .footer-bottom a { color: rgba(255,255,255,0.5); }
+    .footer-bottom a:hover { color: var(--orange); }
+
+    /* ============================================================
+       ACCESSIBILITÉ – ARIA-LIVE
+    ============================================================ */
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; }
+      .btn { width: 100%; justify-content: center; }
+      .dl-grid { flex-direction: column; }
+      .contact-card { padding: 24px; }
+    }
+
+    /* ============================================================
+       ANIMATIONS
+    ============================================================ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-badge  { animation: fadeUp 0.5s 0.1s both; }
+    .hero-title  { animation: fadeUp 0.5s 0.22s both; }
+    .hero-subtitle { animation: fadeUp 0.5s 0.34s both; }
+    .hero-actions  { animation: fadeUp 0.5s 0.46s both; }
+    .hero-meta     { animation: fadeUp 0.5s 0.58s both; }
+  </style>
+</head>
+<body>
+
+  <!-- SKIP LINK -->
+  <a class="skip-link" href="#programme">Aller au contenu principal</a>
+
+  <!-- ============================================================
+       NAVIGATION
+  ============================================================ -->
+  <nav aria-label="Navigation principale">
+    <div class="container nav-inner">
+      <a href="#accueil" class="nav-logo" aria-label="FCR Bordeaux – Accueil">
+        <img src="logo.png" alt="Logo FCR Bordeaux – Compagnons du Tour de France" />
+        <span>FCR Bordeaux</span>
+      </a>
+      <ul class="nav-links" role="list">
+        <li><a href="#objectifs">Objectifs</a></li>
+        <li><a href="#programme">Programme</a></li>
+        <li><a href="#profil">Profil</a></li>
+        <li><a href="#methodes">Méthodes</a></li>
+        <li><a href="#localisation">Lieu</a></li>
+        <li><a href="#contact" class="nav-cta">Contacter</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+  ============================================================ -->
+  <section id="accueil" aria-label="Présentation de la formation">
+    <div class="hero-bg" aria-hidden="true"></div>
+    <div class="hero-pattern" aria-hidden="true"></div>
+    <div class="container hero-content">
+      <div class="hero-badge">Formation courte · 4 heures · Présentiel</div>
+      <h1 class="hero-title">
+        Réunion BIM efficace –<br />
+        <em>Posture, animation<br />et gestion des tensions</em>
+      </h1>
+      <p class="hero-subtitle">
+        Transformez vos réunions BIM en véritables leviers de pilotage : structurez vos décisions, 
+        régulez les tensions inter-métiers et formalisez des arbitrages traçables.
+        Un atelier intensif et immédiatement actionnable, conçu pour les coordinateurs BIM en PME.
+      </p>
+      <div class="hero-actions">
+        <a href="#programme" class="btn btn-primary">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+          Voir le programme
+        </a>
+        <a href="#contact" class="btn btn-outline">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          Nous contacter
+        </a>
+      </div>
+      <div class="hero-meta" aria-label="Informations clés">
+        <div class="hero-meta-item">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span><strong>Mardi 24 mars 2026</strong> · 8h00 – 12h00</span>
+        </div>
+        <div class="hero-meta-item">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <span><strong>FCR Bordeaux</strong> · 6 av. Jean Alfonsea, Floirac</span>
+        </div>
+        <div class="hero-meta-item">
+          <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Délai d'accès : <strong>2 semaines</strong></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ATOUTS CHIFFRES CLÉS
+  ============================================================ -->
+  <section id="atouts" aria-label="Chiffres clés de la formation">
+    <div class="container">
+      <div class="atouts-grid">
+        <div class="atout-card">
+          <div class="atout-icon" aria-hidden="true">⏱️</div>
+          <div class="atout-value">4 h</div>
+          <div class="atout-label">Formation intensive</div>
+        </div>
+        <div class="atout-card">
+          <div class="atout-icon" aria-hidden="true">🎯</div>
+          <div class="atout-value">5</div>
+          <div class="atout-label">Objectifs pédagogiques</div>
+        </div>
+        <div class="atout-card">
+          <div class="atout-icon" aria-hidden="true">🎲</div>
+          <div class="atout-value">100%</div>
+          <div class="atout-label">Ludopédagogie & mise en situation</div>
+        </div>
+        <div class="atout-card">
+          <div class="atout-icon" aria-hidden="true">✅</div>
+          <div class="atout-value">J+15</div>
+          <div class="atout-label">Accès garanti sous 2 semaines</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       OBJECTIFS PÉDAGOGIQUES
+  ============================================================ -->
+  <section id="objectifs" aria-labelledby="titre-objectifs">
+    <div class="container">
+      <p class="section-label">Ce que vous saurez faire</p>
+      <h2 class="section-title" id="titre-objectifs">Objectifs pédagogiques</h2>
+      <p class="section-intro">
+        À l'issue de cette formation, vous serez capable de piloter une réunion BIM avec méthode, 
+        neutralité et efficacité décisionnelle.
+      </p>
+      <div class="objectives-grid">
+        <div class="objective-card">
+          <div class="objective-num" aria-hidden="true">01</div>
+          <p class="objective-text">Identifier les dynamiques relationnelles et les dysfonctionnements d'une réunion BIM</p>
+        </div>
+        <div class="objective-card">
+          <div class="objective-num" aria-hidden="true">02</div>
+          <p class="objective-text">Évaluer la criticité d'un clash au regard des impacts planning, coût et coordination</p>
+        </div>
+        <div class="objective-card">
+          <div class="objective-num" aria-hidden="true">03</div>
+          <p class="objective-text">Structurer un ordre du jour orienté décision intégrant des critères d'arbitrage</p>
+        </div>
+        <div class="objective-card">
+          <div class="objective-num" aria-hidden="true">04</div>
+          <p class="objective-text">Réguler un désaccord technique en posture facilitatrice neutre</p>
+        </div>
+        <div class="objective-card">
+          <div class="objective-num" aria-hidden="true">05</div>
+          <p class="objective-text">Formaliser des décisions traçables avec responsables et échéances claires</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PROGRAMME EN ACCORDÉON
+  ============================================================ -->
+  <section id="programme" aria-labelledby="titre-programme">
+    <div class="container">
+      <p class="section-label">Déroulement de la journée</p>
+      <h2 class="section-title" id="titre-programme">Programme de la formation</h2>
+      <p class="section-intro">
+        8h00 – 12h00 · Présentiel en centre · 4 heures en continu avec une pause de 20 minutes
+      </p>
+      <div class="accordion" role="list" aria-label="Programme détaillé">
+
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel-1" id="btn-1">
+            <span class="accordion-seq">Séq. 1</span>
+            <span class="accordion-title">Introduction immersive</span>
+            <span class="accordion-duration">20 min</span>
+            <svg class="accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-panel" id="panel-1" role="region" aria-labelledby="btn-1">
+            <strong>Icebreaker, cadrage et recueil des attentes</strong><br />
+            Mise en dynamique du groupe, présentation des objectifs et co-construction du contrat pédagogique. 
+            Identification des situations vécues par les participants pour ancrer la formation dans leur réalité terrain.
+          </div>
+        </div>
+
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel-2" id="btn-2">
+            <span class="accordion-seq">Séq. 2</span>
+            <span class="accordion-title">Décryptage d'une réunion dysfonctionnelle</span>
+            <span class="accordion-duration">35 min</span>
+            <svg class="accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-panel" id="panel-2" role="region" aria-labelledby="btn-2">
+            <strong>Étude de cas multi-support</strong><br />
+            Analyse d'une réunion BIM fictive mais réaliste. Identification des dysfonctionnements relationnels, 
+            des points de blocage décisionnels et des non-dits techniques. Débriefing collectif structuré.
+          </div>
+        </div>
+
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel-3" id="btn-3">
+            <span class="accordion-seq">Séq. 3</span>
+            <span class="accordion-title">🎲 Jeu sérieux – Tribunal des Clashs</span>
+            <span class="accordion-duration">1 h 00</span>
+            <svg class="accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-panel" id="panel-3" role="region" aria-labelledby="btn-3">
+            <strong>Simulation et grille d'arbitrage</strong><br />
+            Cœur de la formation. Les participants endossent des rôles (MOE, entreprise, coordinateur) 
+            et arbitrent des conflits de clashs réalistes à l'aide d'une grille planning / coût / impact. 
+            Développement de la posture facilitatrice et de la capacité de décision rapide.
+          </div>
+        </div>
+
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel-4" id="btn-4">
+            <span class="accordion-seq">Séq. 4</span>
+            <span class="accordion-title">Construction d'un ordre du jour décisionnel</span>
+            <span class="accordion-duration">35 min</span>
+            <svg class="accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-panel" id="panel-4" role="region" aria-labelledby="btn-4">
+            <strong>Atelier collaboratif + pause</strong><br />
+            Construction collective d'un OdJ orienté décision à partir d'un cas réel. 
+            Intégration des critères d'arbitrage dans la structuration de l'agenda. 
+            <em>Pause de 20 minutes incluse.</em>
+          </div>
+        </div>
+
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel-6" id="btn-6">
+            <span class="accordion-seq">Séq. 6</span>
+            <span class="accordion-title">Régulation des tensions inter-métiers</span>
+            <span class="accordion-duration">30 min</span>
+            <svg class="accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-panel" id="panel-6" role="region" aria-labelledby="btn-6">
+            <strong>Méthode DESC adaptée au contexte BIM</strong><br />
+            Application pratique de la méthode DESC (Décrire – Exprimer – Spécifier – Conséquences) 
+            aux situations de tension typiques des réunions BIM : désaccords techniques, 
+            retards d'informations, refus de modification.
+          </div>
+        </div>
+
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel-7" id="btn-7">
+            <span class="accordion-seq">Séq. 7</span>
+            <span class="accordion-title">Formalisation & traçabilité</span>
+            <span class="accordion-duration">25 min</span>
+            <svg class="accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-panel" id="panel-7" role="region" aria-labelledby="btn-7">
+            <strong>Création d'un modèle de compte-rendu opérationnel</strong><br />
+            Co-construction d'un template de CR structuré : décisions QUOI/QUI/QUAND, 
+            points ouverts balisés, arbitrages traçables. Chaque participant repart avec un modèle 
+            directement utilisable en situation professionnelle.
+          </div>
+        </div>
+
+        <div class="accordion-item" role="listitem">
+          <button class="accordion-btn" aria-expanded="false" aria-controls="panel-8" id="btn-8">
+            <span class="accordion-seq">Séq. 8</span>
+            <span class="accordion-title">Conclusion active</span>
+            <span class="accordion-duration">15 min</span>
+            <svg class="accordion-chevron" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-panel" id="panel-8" role="region" aria-labelledby="btn-8">
+            <strong>Évaluation à chaud et plan d'action individuel</strong><br />
+            Bilan collectif, questionnaire de satisfaction, et engagement écrit individuel 
+            sur 1 à 3 actions concrètes à mettre en œuvre dès la prochaine réunion BIM.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PROFIL & PRÉREQUIS
+  ============================================================ -->
+  <section id="profil" aria-labelledby="titre-profil">
+    <div class="container">
+      <p class="section-label">À qui s'adresse cette formation ?</p>
+      <h2 class="section-title" id="titre-profil">Profil & prérequis</h2>
+      <div class="profil-grid">
+        <div class="profil-card orange-top">
+          <h3>👤 Profils ciblés</h3>
+          <ul>
+            <li>Coordinateur / Coordinatrice BIM</li>
+            <li>Référent·e BIM en PME (15-40 collaborateurs)</li>
+            <li>Tout professionnel en rôle transversal de coordination</li>
+          </ul>
+        </div>
+        <div class="profil-card">
+          <h3>📋 Prérequis</h3>
+          <ul>
+            <li>Exercer ou avoir exercé un rôle de coordination BIM ou de facilitation transversale</li>
+            <li>Avoir participé à des réunions BIM en contexte professionnel</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       MÉTHODES PÉDAGOGIQUES
+  ============================================================ -->
+  <section id="methodes" aria-labelledby="titre-methodes">
+    <div class="container">
+      <p class="section-label">Comment on apprend</p>
+      <h2 class="section-title" id="titre-methodes">Méthodes pédagogiques</h2>
+      <div class="methodes-grid">
+        <div class="methode-card">
+          <div class="methode-icon" aria-hidden="true">🎲</div>
+          <div class="methode-title">Ludopédagogie</div>
+          <div class="methode-desc">Jeux sérieux et simulations immersives pour ancrer les apprentissages dans le plaisir</div>
+        </div>
+        <div class="methode-card">
+          <div class="methode-icon" aria-hidden="true">🎭</div>
+          <div class="methode-title">Mises en situation</div>
+          <div class="methode-desc">Jeux de rôle basés sur des cas terrain réalistes du secteur BTP / maîtrise d'œuvre</div>
+        </div>
+        <div class="methode-card">
+          <div class="methode-icon" aria-hidden="true">🔄</div>
+          <div class="methode-title">Feedback structuré</div>
+          <div class="methode-desc">Retours constructifs outillés après chaque simulation pour progresser rapidement</div>
+        </div>
+        <div class="methode-card">
+          <div class="methode-icon" aria-hidden="true">♿</div>
+          <div class="methode-title">Accessibilité</div>
+          <div class="methode-desc">Supports contrastés, police adaptée dys, version audio des études de cas disponible</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       TÉLÉCHARGEMENTS
+  ============================================================ -->
+  <section id="telechargements" aria-labelledby="titre-dl">
+    <div class="container">
+      <p class="section-label">Documents de la formation</p>
+      <h2 class="section-title" id="titre-dl">Téléchargements</h2>
+      <p class="section-intro">
+        Retrouvez ci-dessous les documents officiels de la formation à télécharger librement.
+      </p>
+      <div class="dl-grid">
+        <a href="programme.pdf" class="btn-dl btn-dl-orange" download aria-label="Télécharger le programme de la formation (PDF)">
+          <svg class="dl-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Programme de formation (PDF)
+        </a>
+        <a href="livret-stagiaire.pdf" class="btn-dl btn-dl-ghost" download aria-label="Télécharger le livret stagiaire (PDF)">
+          <svg class="dl-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+          Livret stagiaire (PDF)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       LOCALISATION
+  ============================================================ -->
+  <section id="localisation" aria-labelledby="titre-localisation">
+    <div class="container">
+      <p class="section-label">Où se déroule la formation ?</p>
+      <h2 class="section-title" id="titre-localisation">Lieu de la formation</h2>
+      <p class="section-intro">
+        La formation se tient en présentiel au centre FCR Bordeaux – Compagnons du Tour de France, 
+        à Floirac (33).
+      </p>
+
+      <div class="maps-grid">
+        <!-- Google Maps -->
+        <div class="map-block">
+          <div class="map-label" aria-hidden="true">
+            📍 Carte interactive
+            <span>FCR Bordeaux – Floirac</span>
+          </div>
+          <iframe
+            title="Localisation FCR Bordeaux – 6 avenue Jean Alfonsea, Floirac"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2833.3!2d-0.5106!3d44.8425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd5527ad8b7d2b6f%3A0x0!2sFédération+Compagnonnique+de+Bordeaux!5e0!3m2!1sfr!2sfr!4v1711278000000!5m2!1sfr!2sfr&q=6+avenue+Jean+Alfonsea+33270+Floirac"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            aria-label="Carte Google Maps – FCR Bordeaux, 6 avenue Jean Alfonsea, 33270 Floirac">
+          </iframe>
+        </div>
+
+        <!-- Visite virtuelle -->
+        <div class="map-block">
+          <div class="map-label" aria-hidden="true">
+            🔭 Visite virtuelle 360°
+            <span>Compagnons du Tour de France – Bordeaux</span>
+          </div>
+          <iframe
+            title="Visite virtuelle 360° – Compagnons du Tour de France Bordeaux"
+            src="https://www.vip-studio360.fr/galerie360/visites/vv-compagnonsdutourdefrance/bordeaux-c.html"
+            allowfullscreen
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            aria-label="Visite virtuelle 360° des locaux des Compagnons du Tour de France à Bordeaux">
+          </iframe>
+        </div>
+      </div>
+
+      <div class="address-block" aria-label="Adresse complète">
+        <div class="address-icon" aria-hidden="true">🏛️</div>
+        <div>
+          <h4>Fédération Compagnonnique de Bordeaux – FCR</h4>
+          <p>6, avenue Jean Alfonsea – BP 90 – 33271 Floirac Cedex<br />
+          Tél. : <a href="tel:+33557542380">05 57 54 23 80</a> · 
+          <a href="http://www.bordeaux.compagnonsdutourdefrance.org" target="_blank" rel="noopener noreferrer">
+            www.bordeaux.compagnonsdutourdefrance.org
+          </a></p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CONTACT FORMATEUR
+  ============================================================ -->
+  <section id="contact" aria-labelledby="titre-contact">
+    <div class="container">
+      <p class="section-label">Votre interlocuteur</p>
+      <h2 class="section-title" id="titre-contact">Contacter le formateur</h2>
+      <div class="contact-card">
+        <div class="contact-avatar" aria-hidden="true">TA</div>
+        <div>
+          <p class="contact-name">Talasi Alexandre</p>
+          <p class="contact-role">Formateur CAO/DAO · Référent BIM – FCR Bordeaux Floirac</p>
+          <div class="contact-links">
+            <a href="mailto:alexandre.talasi@compagnonsdutourdefrance.org" class="contact-link" aria-label="Envoyer un email à Alexandre Talasi">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              alexandre.talasi@compagnonsdutourdefrance.org
+            </a>
+            <a href="tel:+33557542380" class="contact-link" aria-label="Appeler le 05 57 54 23 80">
+              <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+              05 57 54 23 80
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+  ============================================================ -->
+  <footer role="contentinfo">
+    <div class="container">
+      <div class="footer-inner">
+        <div class="footer-brand">
+          <img src="logo.png" alt="Logo FCR Bordeaux – Compagnons du Tour de France" />
+          <div class="footer-brand-text">
+            <h4>Fédération Compagnonnique de Bordeaux</h4>
+            <p>6, avenue Jean Alfonsea – BP 90<br />
+            33271 Floirac Cedex<br />
+            SIRET 781 842 802 000 48</p>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h5>Liens utiles</h5>
+          <ul>
+            <li>
+              <a href="http://www.bordeaux.compagnonsdutourdefrance.org" target="_blank" rel="noopener noreferrer">
+                Site officiel FCR Bordeaux
+              </a>
+            </li>
+            <li>
+              <!-- TODO: remplacer # par l'URL exacte de la page référent handicap FCR -->
+              <a href="#" target="_blank" rel="noopener noreferrer">
+                ♿ Politique d'inclusion et gestion du handicap
+              </a>
+            </li>
+            <li>
+              <a href="mailto:bordeaux@compagnonsdutourdefrance.org">
+                bordeaux@compagnonsdutourdefrance.org
+              </a>
+            </li>
+            <li><a href="tel:+33557542380">05 57 54 23 80</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span>© 2026 Fédération Compagnonnique de Bordeaux. Tous droits réservés.</span>
+        <span>
+          Organisme de formation certifié 
+          <strong style="color: var(--orange);">Qualiopi</strong> · 
+          <a href="#localisation">Accessibilité : contactez notre référent handicap</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============================================================
+       JAVASCRIPT – ACCORDÉON
+  ============================================================ -->
+  <script>
+    document.querySelectorAll('.accordion-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const expanded = btn.getAttribute('aria-expanded') === 'true';
+        const panelId  = btn.getAttribute('aria-controls');
+        const panel    = document.getElementById(panelId);
+
+        // Ferme tous les autres
+        document.querySelectorAll('.accordion-btn').forEach(b => {
+          b.setAttribute('aria-expanded', 'false');
+          const p = document.getElementById(b.getAttribute('aria-controls'));
+          if (p) p.classList.remove('is-open');
+        });
+
+        // Ouvre ou ferme le courant
+        if (!expanded) {
+          btn.setAttribute('aria-expanded', 'true');
+          panel.classList.add('is-open');
+        }
+      });
+
+      // Accessibilité clavier
+      btn.addEventListener('keydown', e => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btn.click();
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
